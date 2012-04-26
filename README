@@ -1,29 +1,11 @@
-Second to second replay of the Apollo 11 mission radio logs. 
-Enacted as dialogue between spacecraft and earth staff. 
+This is a HTML/jQuery + JSON re-enactment of the Apollo 11 post launch flight.
+Download the files and open index.html in any never browser... sit back and enjoy the show.
 
-HOWTO
+(if you're just a tad bored with the realism of it all - click the "real time" link to increase the time modifier)
 
-1. Use the apollo.csv file included to create a database with the following metadata
+Images and Footage used is common use imagery by NASA
+Based upon data files from NASA & a previous perl/csv based project by Claus Dahl & Morten Just (@mortenjust on Twitter)
 
-mysql> describe apollo_transcripts;
-+--------------+-------------+------+-----+---------+----------------+
-| Field        | Type        | Null | Key | Default | Extra          |
-+--------------+-------------+------+-----+---------+----------------+
-| id           | int(11)     | NO   | PRI | NULL    | auto_increment | 
-| mission_time | int(11)     | YES  | MUL | NULL    |                | 
-| comms        | text        | YES  |     | NULL    |                | 
-| speaker      | varchar(50) | YES  |     | NULL    |                | 
-+--------------+-------------+------+-----+---------+----------------+
+I'd be happy to see what you make of it :) - Hack away!
 
-2. Install my Assumptions minimalist MVC framework for perl
-
-3. Install the perl script to read sections from this log
-
-4. Fix the FIXMEs in the perl script. DB connection, and the time for lift off in the reenactment
-
-5. Point the index.html to your perl script
-
-6. LIFTOFF!!
-
- - this is joint work with Morten Just (@mortenjust on Twitter) (CSS and presentation ideas)
-
+/Klaus L. Hougesen - www.threads.dk

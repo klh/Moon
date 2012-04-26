@@ -1,19 +1,31 @@
 <html>
 <head>
 	<title>Apollo 11 mission - Live from space</title>
-	<script type="text/javascript" src="jquery-1.2.3.min.js"></script>
+    <script src="jquery.min.js" type="text/javascript"></script>
 	<script type="text/javascript">
-	    var now = 0;
-	    var liftoff = 0;
-	    var current;
-	    var future;
-	    var i = 0;
-            var correct_to_now; 
-            var watch_timeout;
-            var refresh_timeout;
-            var next_timeout;
-            var cached = false;
-	    var images = {
+	 var now       = -10
+        ,apollo11  = ""
+	    ,liftoff   = 0
+        ,r=0
+        ,planethid
+        ,splashdown=703098
+        ,realtime = 1000
+        ,currenttime = 1000
+        ,progress=0
+        ,scale  = 5
+        ,indicatorpx=0
+	    ,current
+	    ,i         = 0
+        ,global_timeout
+        ,cached = false
+        ,modifiertxt = {
+            1000:"Real time",
+            500:"2x",
+            100:"10x",
+            10:"100x",
+            1:"1000x"
+        }
+	    ,images = {
             CDR:"armstrong.jpg",
             CDREAGLE:"armstrong.jpg",
             CDRTRAN:"armstrong.jpg",
@@ -34,7 +46,7 @@
             R:"recovery_helicopter.jpg",
             NOISE:"noise.jpg"
 	    }
-	    var names = {
+	    ,names = {
             CDR:"Commander Neil A. Armstrong",
             CDREAGLE:"Commander Neil A. Armstrong from the lunar module",
             CDRTRAN:"Commander Neil A. Armstrong from the lunar base",
@@ -55,7 +67,7 @@
             R:"Recovery helicopter",
             NOISE:"(Noise)"
 	    }
-	    var place = {
+	    ,place = {
             CDR:"space",
             CDREAGLE:"space",
             CDRTRAN:"space",
@@ -75,186 +87,276 @@
             HORNET:"earth",
             R:"earth",
             NOISE:"space"
-	    }
-	    function set_single(replik) {
-	        if (replik) {
-                var p = place[replik[1]];
-                $('#' + p + ' img').attr('src', images[replik[1]]);
-                $('#' + p + ' .speaker').html(names[replik[1]] + " " + replik[3]);
-                $('#' + p + ' .replik').html(replik[2]);
-                set_visible(p);
+	    },
+        colors = {
+            CDR:"174e91",
+            CDREAGLE:"174e91",
+            CDRTRAN:"174e91",
+            CDREVA:"174e91",
+            CMP:"E1BF20",
+            LMP:"6EA83F",
+            LMPEAGLE:"6EA83F",
+            LMPTRAN:"6EA83F",
+            LMPEVA:"6EA83F",
+            NIXON:"df0101",
+            SC:"94b0c2",
+            MS:"ffffff",
+            LCC:"b03e00",
+            CC:"257ae3",
+            F:"d3d141",
+            CT:"79d351",
+            HORNET:"0710d3",
+            R:"0710d3",
+            NOISE:"383739"
+        }
+
+		function cache_images() {
+            for(var i in images){
+             var cacheImage = document.createElement('img');
+                 cacheImage.src = images[i];
             }
-	    }
-	    function set_visible(place) {
-	        $('#countdown').hide();
-                $('#tuning').hide();
-	        if (place == "earth") {
-	            $('#earth').fadeIn("fast");
-	            $('#space').fadeOut("fast");
-	        } else {
-	            $('#earth').fadeOut("fast");
-	            $('#space').fadeIn("fast");
-	        }
-	    }
-	    function set_transcript_first(data) {
-	        now = data['now'];
-	        liftoff = data['liftoff'];
-	        current = data['current'];
-	        future = data['future'];
-	        i = 0;
-                correct_to_now = now-realtime();
-	        if (now>liftoff) {
-               	   set_single(current);
-               	   if (i< future.length) {
-                     next_timeout = window.setTimeout("set_transcript_next()", (future[i][0]-now)*1000);       
-               	   }
-               	   // reload at least every five minutes 
-               	   refresh_timeout = window.setTimeout("refresh_transcript();",30000);
-	           elapsed_clock();
-                } else {
-                   refresh_timeout = window.setTimeout("refresh_transcript();",Math.min(liftoff-now,300)*1000);
-		    $('#countdown').show();
-                    $('#tuning').hide();
-                   countdown_clock();
+		}
+
+	
+            function realtime() {
+                r = new Date().getTime();
+                r = (r-(r % 1000))/1000;
+                return r;
                 }
-	    }
-	    function set_transcript_next() {
-	        current = future[i];
-	        i++;
-	        now = current[0];
-	        set_single(current);
-	        if (i< future.length) {
-	            next_timeout = window.setTimeout("set_transcript_next()", (future[i][0]-now)*1000);       
-	        } else {
-                    clear_timeouts();
-	            load_transcript();
-	        }
-	    }
-            function refresh_transcript() {
-                clear_timeouts();
-                load_transcript();
+
+
+            function get_radiolog(timeindex){
+               var pointer = apollo11[timeindex];
+               if(pointer){
+                return pointer;
+               }else{
+                return false;
+               }
+
             }
-		function load_transcript() {
-			// FIXME - point this at your own CGI script...
-			$.getJSON("http://YOURSERVER/apollo_transcript.pl?q=transcript&jsonp=?",
-			function(data, textStatus){
-			    set_transcript_first(data);
-			});		
-		}
-                function first_load() {
-		        $('#tuning').fadeIn("slow");
-			cache_image('CDR');
-			cache_image('CMP');
-			cache_image('LMP');
-			cache_image('NIXON');
-			cache_image('SC');
-			cache_image('MS');
-			cache_image('LCC');
-			cache_image('CC');
-			cache_image('F');
-			cache_image('CT');
-			cache_image('HORNET');
-			cache_image('R');
-			cache_image('NOISE');
-                        load_transcript();
+
+
+            function update_communications(){
+            var communication_index=get_radiolog(now);
+                    if(communication_index){
+                        var message         =   communication_index[0]
+                            ,origin         =   place[communication_index[1]]
+                            ,speaker        =   names[communication_index[1]]
+                            ,speakerimage   =   images[communication_index[1]]
+                            ,messagecolor   =   colors[communication_index[1]]
+                            ,$domElement    =   $("#"+origin)
+                            ,message        =   message.replace(".",".<br>");
+
+                    if(currenttime>=100){  //otherwise the fast speed causes things to slow considerably
+                      $domElement.find(".content").hide();
+                      $domElement.find("img.speakerimage").css("top","-10");
+                    }
+
+                      $domElement.find(".message").html(message);
+                      $domElement.find("img.speakerimage").attr("src",speakerimage);
+                      $domElement.find(".speaker").html(speaker).css("color","#"+messagecolor);
+
+                    if(currenttime>=100){ //otherwise the fast speed causes things to slow considerably
+                      $domElement.find(".content").fadeIn("slow");
+                      $domElement.find("img.speakerimage").animate({"top":0,"z-index":100},200);
+                    }
+                    }
+
+            }
+
+
+            function update_missiontime(){
+
+                //calculate hours,minutes and seconds for mission time
+            var s = now % 60
+                ,m = ((now-s)/60) % 60
+                ,h = ((now-s)/60-m)/60;
+
+                //update % wise progress
+                progress = Math.round((now/splashdown*100)*10)/10;
+
+                //change position of moon and earth depending on mission time
+                // we want maximum moon and minimum earth at approx 40% of journey
+                if(progress<40){
+                    earthposition = progress*-2;
+                    moonposition = 50-(progress*2.5);
+                    //$("#earth img.planetarybody").css("right",progress*(100/40)+"%")
+                    //$("#space img.planetarybody").css("left", (100-progress*(100/40))+"%")
+                }else if(progress>=40&&progress<=50){
+                    moonposition = -50;
+                    earthposition = -80;
+                }else if(progress>50){
+                    earthposition = -80+(progress-50*0.4);
+                    moonposition = ((progress-50)*2)-50;
                 }
-		function cache_image(name) {
-         	    	  $('#' + place[name] + ' img').attr('src', images[name]);
-		}
-		function countdown_clock() {
-                    t = realtime();
-		    set_countdown(liftoff-(t+correct_to_now));
-		    if (t+correct_to_now<liftoff) {
-    		        watch_timeout = window.setTimeout("countdown_clock()",1000);
-    		    }
-		}
-		function elapsed_clock() {
-                    t = realtime();
-		    set_elapsed((t+correct_to_now)-liftoff);
-    		    watch_timeout = window.setTimeout("elapsed_clock()",1000);
-    		}
-		function set_countdown(seconds) {
-		    var s = seconds % 60;
-		    var m = ((seconds-s)/60) % 60;
-		    var h = ((seconds-s)/60-m)/60;
-                    if (h <= 9) h = "0" + h;
-                    if (m <= 9) m = "0" + m;
-                    if (s <= 9) s = "0" + s;		    
-		    $('#clock').html(h + ":" + m + ":" + s);
-		}
-		function set_elapsed(seconds) {
-		    var s = seconds % 60;
-		    var m = ((seconds-s)/60) % 60;
-		    var h = ((seconds-s)/60-m)/60 % 24;
-                    var d = ((((seconds-s)/60-m)/60)-h)/24;
+                    $("#earth img.planetarybody").css("left",earthposition+"%")
+                    $("#space img.planetarybody").css("left", moonposition+"%")
+
+                //change visual style and animation of mission time on liftoff
+                //if prelaunch show a T- infront of mmission time 
+                if(s < 0){
+                        s=s*-1;
+                        prefix = "-";
+                }
+
+                //change visual style and animation of mission time on liftoff
+                if(s===0){
+                    liftoff=1;
+                     $('#missiontime').removeClass("prelaunch");
+                     prefix="";
+                }
                     if (h <= 9) h = "0" + h;
                     if (m <= 9) m = "0" + m;
                     if (s <= 9) s = "0" + s;
-                    d = "0" + d;   
-		    $('#elapsed').html("T + " + d + ":" + h + ":" + m + ":" + s);
-		}
-                function realtime() {
-                     var d = new Date();
-                     r = d.getTime();
-                     r = (r-(r % 1000))/1000;
-                     return r;
+                    var missiontxt="Mission time: "+prefix+h + ":" + m + ":" + s;
+
+
+                    //Show mission time in view
+                    if(!liftoff){
+                      $('#missiontime').hide();
+                      $('#missiontime').fadeIn("fast");
+                    }
+
+
+                    $('#missiontime').text(missiontxt);
+                    
+
+            }
+
+
+            function move_indicator(){
+              indicatorpx=now*get_timescale();
+              $("#indicator").css("left", indicatorpx);
+            }
+
+            function get_timescale(){
+              var currentWidth=$(window).width();
+              var seconds_per_pixel=1/(splashdown/currentWidth);
+              var scalemodifier = Math.round(seconds_per_pixel*10000)/10000;
+              return scalemodifier;
+            }
+
+            function time_control(){
+                now++;
+                $(window).trigger("apollo11.a.second.passed");
+                window.clearTimeout(global_timeout);
+                window.setTimeout(time_control, currenttime);
+            }
+
+            function switch_timemodifier(e){
+            var currentModifier=$(this).data("currenttime");
+            if(currentModifier==1000) {
+                currenttime=500;
+                }else if(currentModifier==500) {
+                currenttime=100;
+                }else if(currentModifier==100) {
+                currenttime=10;
+                }else if(currentModifier==10) {
+                currenttime=1;
+                }else if(currentModifier==1) {
+                currenttime=realtime;
                 }
-                function clear_timeouts() {
-                     window.clearTimeout(watch_timeout);
-                     window.clearTimeout(next_timeout);
-                     window.clearTimeout(refresh_timeout);
+            $(this).data("currenttime",currenttime);
+            $(this).find("a").text(modifiertxt[currenttime]);
+            e.preventDefault();
+            return false;
+            }
+
+            function bind_interface(){
+             $(window).on({
+                'apollo11.a.second.passed': function(){
+                    update_communications();
+                    move_indicator();
+                    update_missiontime();
                 }
+              });
+            $("#timeline .timemodifier").on("click",switch_timemodifier);
+            }
+
+            function commence_launch(data,success){
+              apollo11=data.apollo11;
+              global_timeout= window.setTimeout(time_control, realtime);
+              bind_interface();
+            }
+
+            function load_json() {
+
+            $.getJSON("apollo.json",
+                function(data, success){
+                 commence_launch(data,success);
+                }); 
+            }
+
+            function prepare_launch(){
+                $('#tuning').fadeIn("slow");
+                load_json();
+                cache_images();
+                }
+
+            jQuery(document).ready(function () {
+
+                prepare_launch();
+                $(window).on("resize",get_timescale);
+            });
+
 	</script>
 	<style>
-		body {  background-color:black;  margin-top:200px; padding:0px; color:fff; }
-		#main {height:90%; font-family:helvetica,arial; font-size:26px; }
-		#tuning {color:#afafaf;text-align:center;display:none;}
-		#countdown {text-align:center;display:none;}
-		#imgcache {display:none;}
-		#clock {color:#e6bf68;}
-		#space {float:right;display:none;width:549px;}
-		#earth {display:none; width:549px;}
-        #earth img {float:left; margin-right:14px;}
-        #space img {float:right; margin-left:14px;}
-        img {width:141px;}
-        .textpart {padding:4px; margin:4px;}
-        #space .textpart {text-align:right;}
-        .replik { font-family:helvetica,arial; font-size:26px; width:400px; color:e6bf68;Ê}
-        .speaker { font-size:11px; color:#fff; font-family:helvetica,arial; Êwidth:400px; }	
-        .footer {text-align:center;font-size:11;color:#ccc;}
-        a {color:white};
+
     </style>
+    <link rel="stylesheet" href="timeline.css">
 </head>
-<body onload="first_load();">
+<body >
 <div id="main">
-<div id="countdown">
-<!--<h1>Apollo 11</h1>-->
-Apollo 11 will lift off in <span id="clock"></span>
-</div>
-<div id="tuning">Finding Apollo ...</div>
+
 <div id="space">
-    <div>
-        <img class="img" src=""/>
+    <div class="content">
+        <img class="speakerimage" src="spacedef.png"/>
         <div class="textpart">
             <div class="speaker">
             </div>
-            <div class="replik">
+            <div class="message">
             </div>
         </div>
     </div>
+<img class="planetarybody" src="moon.png"/>
 </div>
+
 <div id="earth">
-    <div>
-        <img src=""/>
+    <div class="content">
+        <img src="earthdef.png" class="speakerimage"/>
         <div class="textpart">
             <div class="speaker">
             </div>
-            <div class="replik">
+            <div class="message">
             </div>
         </div>
     </div>
+<img class="planetarybody" src="earth.png"/>
+</div>
+
+</div>
+<div id="timeline">
+<div class="container main">
+
+<div class="navigation">
+
+    <div class="timenav">
+
+    <div class="time">
+        <div id="indicator"></div>
+        <div id="missiontime" class="prelaunch">Mission time: -00:00:10</div>
+        <div class="time-interval-minor">
+            <div class="minor" style="width: 100%"></div>
+        </div>
+        <div class="timemodifier" data-currenttime="1000">
+            <a href="#">Real time</a>
+        </div>
+    </div>
+
+    </div>
 </div>
 </div>
-<div class="footer"><a href="http://twitter.com/Claus">@Claus</a>,<a href="http://twitter.com/mortenjust">@mortenjust</a> - Live from 1969 -  <span id="elapsed"></span> - <a href="http://www.classy.dk/log/archive/004138.html">more info</a></div>
+</div>
+
 </body>
 </html>
