@@ -8,4 +8,11 @@ Based upon data files from NASA & a previous perl/csv based project by Claus Dah
 
 I'd be happy to see what you make of it :) - Hack away!
 
+
+Improvements missing:
+Scrubbing in the timeline (drag and drop the blue icon to scrub through the timespan)
+Saving current position in cookie/localstorage (resume where you left off)
+|-> which could be used to create a fluid.app / prism.app -> screensaver!
+
+
 /Klaus L. Hougesen - www.threads.dk
