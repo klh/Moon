@@ -1,0 +1,606 @@
+    body {
+     background: #000 url("star_field_full_gal.png") no-repeat fixed center center;
+     background-color:#000;
+     color:fff;
+     height:100%;
+      margin:0;
+      padding:0;
+    }
+
+
+
+/* TIMELINE
+================================================== */
+#timeline {
+  clear: both;
+  height: 10%;
+  margin: 0;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 100%;
+  z-index: 100;
+  /* FEEDBACK
+  ================================================== */
+
+  /* Container
+  ================================================== */
+
+}
+
+#timeline .container.main {
+    bottom: 0;
+    clear: both;
+    height: auto;
+    margin: 0;
+    position: absolute;
+    width: 100%;
+}
+#timeline img {
+  border: 1px solid #999999;
+  max-height: 100%;
+}
+#timeline a {
+  color: #0bd4e3;
+  text-decoration: none;
+}
+#timeline a:hover {
+  color: #07909a;
+  text-decoration: underline;
+}
+#timeline .thumbnail.twitter {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -889px;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+}
+#timeline .thumbnail.vimeo {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -963px;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+}
+#timeline .thumbnail.youtube {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -1111px;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+}
+#timeline .thumbnail.soundcloud {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -659px;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+}
+#timeline .thumbnail.map {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -514px;
+  background-repeat: no-repeat;
+  height: 21px;
+  width: 26px;
+}
+#timeline .thumbnail.website {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -1037px;
+  background-repeat: no-repeat;
+  height: 24px;
+  width: 24px;
+}
+#timeline .zFront {
+  z-index: 500;
+}
+
+/*
+ * Navigation
+ * UI for Navigation
+ * ------------------------------------------------------------------------------------------- */
+#timeline .navigation {
+  border-top: 1px solid #333333;
+  clear: both;
+  cursor: move;
+  height: 200px;
+  position: relative;
+  width: 100%;
+}
+#timeline .navigation .timenav-background {
+  background-color: #262626;
+  cursor: move;
+  height: 150px;
+  left: 0px;
+  position: absolute;
+  top: 0px;
+  width: 100%;
+}
+#timeline .navigation .timenav-background .timenav-interval-background {
+  background: #1a1a1a;
+  height: 49px;
+  left: 0px;
+  position: absolute;
+  top: 151px;
+  width: 100%;
+}
+#timeline .navigation .timenav-background .timenav-interval-background .top-highlight {
+  background: #1a1a1a;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  -moz-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  -webkit-box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+  filter: alpha(opacity=50);
+  height: 1px;
+  left: 0px;
+  opacity: 0.5;
+  -khtml-opacity: 0.5;
+  -moz-opacity: 0.5;
+  position: absolute;
+  top: -1px;
+  width: 100%;
+  z-index: 30;
+}
+#timeline .navigation .timenav-background .timenav-line {
+  background: #0bd4e3;
+  box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.3);
+  -moz-box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.3);
+  -webkit-box-shadow: 1px 1px 7px rgba(0, 0, 0, 0.3);
+  height: 150px;
+  left: 50%;
+  position: absolute;
+  top: 0px;
+  width: 3px;
+  z-index: 500;
+}
+#timeline .navigation .timenav {
+  height:20px;
+  position: absolute;
+  top: 0px;
+  width:100%;
+  z-index: 1;
+}
+#timeline .navigation .timenav .content {
+  position: relative;
+}
+#timeline .navigation .timenav .content .marker.start {
+  display: none;
+}
+#timeline .navigation .timenav .content .marker.active .dot {
+  background: #0bd4e3;
+  z-index: 200;
+}
+#timeline .navigation .timenav .content .marker.active .line {
+  background: #0bd4e3;
+  width: 1px;
+  z-index: 199;
+}
+#timeline .navigation .timenav .content .marker.active .line .event-line {
+  background: #0bd4e3;
+  filter: alpha(opacity=75);
+  opacity: 0.75;
+  -khtml-opacity: 0.75;
+  -moz-opacity: 0.75;
+}
+#timeline .navigation .timenav .content .marker.active .flag {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -110px;
+  background-repeat: no-repeat;
+  height: 60px;
+  width: 153px;
+  z-index: 200;
+}
+#timeline .navigation .timenav .content .marker.active .flag .flag-content h3 {
+  color: #0bd4e3;
+}
+#timeline .navigation .timenav .content .marker.active .flag.row1,
+#timeline .navigation .timenav .content .marker.active .flag.row2,
+#timeline .navigation .timenav .content .marker.active .flag.row3 {
+  z-index: 200;
+}
+#timeline .navigation .timenav .content .marker.active:hover {
+  cursor: default;
+}
+#timeline .navigation .timenav .content .marker.active:hover .flag .flag-content h3 {
+  color: #0bd4e3;
+}
+#timeline .navigation .timenav .content .marker.active:hover .flag .flag-content h4 {
+  color: #999999;
+}
+#timeline .navigation .timenav .content .marker:hover .line {
+  background: #999999;
+  z-index: 500;
+}
+#timeline .navigation .timenav .content .marker {
+  display: block;
+  left: 150px;
+  position: absolute;
+  top: 0px;
+}
+#timeline .navigation .timenav .content .marker .dot {
+  background: #aaaaaa;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  display: block;
+  height: 6px;
+  left: 0px;
+  position: absolute;
+  top: 150px;
+  width: 6px;
+  z-index: 21;
+}
+#timeline .navigation .timenav .content .marker .line {
+  background: #333333;
+  box-shadow: 1px 0 0 #1a1a1a;
+  -moz-box-shadow: 1px 0 0 #1a1a1a;
+  -webkit-box-shadow: 1px 0 0 #1a1a1a;
+  height: 150px;
+  left: 3px;
+  position: absolute;
+  top: 0px;
+  width: 1px;
+  z-index: 22;
+}
+#timeline .navigation .timenav .content .marker .line .event-line {
+  background: #0bd4e3;
+  filter: alpha(opacity=15);
+  height: 1px;
+  left: 0px;
+  opacity: 0.15;
+  -khtml-opacity: 0.15;
+  -moz-opacity: 0.15;
+  position: absolute;
+  width: 1px;
+  z-index: 22;
+}
+#timeline .navigation .timenav .content .marker .flag {
+  background-image: url(timeline-dark.png);
+  background-position: 0 0;
+  background-repeat: no-repeat;
+  display: block;
+  height: 56px;
+  height: 60px;
+  left: 3px;
+  padding: 0px;
+  position: absolute;
+  top: 15px;
+  width: 153px;
+  width: 153px;
+  z-index: 23;
+}
+#timeline .navigation .timenav .content .marker .flag .flag-content {
+  height: 33px;
+  overflow: hidden;
+  padding: 5px 7px 2px 5px;
+}
+#timeline .navigation .timenav .content .marker .flag .flag-content h3 {
+  color: #999999;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-size: 11px;
+  font-weight: bold;
+  line-height: 20px;
+  line-height: 11px;
+  margin-bottom: 2px;
+}
+#timeline .navigation .timenav .content .marker .flag .flag-content h3 small {
+  display: none;
+}
+#timeline .navigation .timenav .content .marker .flag .flag-content h4 {
+  color: #aaaaaa;
+  display: none;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  font-size: 10px;
+  font-weight: normal;
+  line-height: 20px;
+  line-height: 10px;
+}
+#timeline .navigation .timenav .content .marker .flag .flag-content h4 small {
+  display: none;
+}
+#timeline .navigation .timenav .content .marker .flag .flag-content .thumbnail {
+  margin-bottom: 15px;
+}
+#timeline .navigation .timenav .content .marker .flag:hover {
+  background-image: url(timeline-dark.png);
+  background-position: 0 -110px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+  height: 60px;
+  width: 153px;
+}
+#timeline .navigation .timenav .content .marker .flag:hover .flag-content h3 {
+  color: #aaaaaa;
+}
+#timeline .navigation .timenav .content .marker .flag:hover .flag-content h4 {
+  color: #aaaaaa;
+}
+#timeline .navigation .timenav .content .marker .flag.row1 {
+  top: 48px;
+  z-index: 25;
+}
+#timeline .navigation .timenav .content .marker .flag.row2 {
+  top: 96px;
+  z-index: 24;
+}
+#timeline .navigation .timenav .content .marker .flag.row3 {
+  top: 1px;
+  z-index: 23;
+}
+#timeline .navigation .timenav .content .marker .flag.zFront {
+  z-index: 100;
+}
+#timeline .navigation .timenav .content .era {
+  background: #0bd4e3;
+  border-left: 1px solid #333333;
+  -moz-border-radius-topleft: 7px;
+  -moz-border-radius-topright: 7px;
+  border-right: 1px solid #333333;
+  border-top: 1px solid #333333;
+  border-top-left-radius: 7px;
+  -webkit-border-top-left-radius: 7px;
+  border-top-right-radius: 7px;
+  -webkit-border-top-right-radius: 7px;
+  display: block;
+  filter: alpha(opacity=75);
+  height: 12px;
+  left: 150px;
+  opacity: 0.75;
+  -khtml-opacity: 0.75;
+  -moz-opacity: 0.75;
+  overflow: hidden;
+  position: absolute;
+  top: 138px;
+  z-index: -10;
+}
+#timeline .navigation .timenav .content .era h3 {
+  color: #1a1a1a;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: bold;
+  left: 9px;
+  line-height: 10px;
+  position: absolute;
+  top: -1px;
+}
+#timeline .navigation .timenav .time {
+  background-color: #1a1a1a;
+  height: 50px;
+  left: 0px;
+  position: absolute;
+  top: 150px;
+  width:100%;
+}
+#timeline .navigation .timenav .time .time-interval-minor {
+  height: 6px;
+  position: absolute;
+  top: -6px;
+  white-space: nowrap;
+  width:100%;
+  z-index: 10;
+}
+#timeline .navigation .timenav .time .time-interval-minor .minor {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+  background-position: center top;
+  color: #aaaaaa;
+  display: inline-block;
+  height: 6px;
+  margin-top: 0px;
+  padding-top: 0px;
+  position: relative;
+  top: 0px;
+  white-space: nowrap;
+  width: 100%;
+}
+#timeline .navigation .timenav .time .time-interval {
+  left: 0px;
+  position: absolute;
+  top: 5px;
+  white-space: nowrap;
+}
+#timeline .navigation .timenav .time .time-interval div {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+  background-position: left top;
+  background-repeat: no-repeat;
+  color: #aaaaaa;
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 10px;
+  font-weight: normal;
+  height: 3px;
+  left: 0px;
+  line-height: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 1px;
+  padding-top: 3px;
+  position: absolute;
+  text-align: left;
+  text-indent: 0px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 2;
+}
+#timeline .navigation .timenav .time .time-interval div strong {
+  color: #ffffff;
+  font-weight: bold;
+}
+#timeline .navigation .timenav .time .time-interval-major {
+  left: 0px;
+  position: absolute;
+  top: 5px;
+  white-space: nowrap;
+}
+#timeline .navigation .timenav .time .time-interval-major div {
+  background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAMCAMAAACdvocfAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAAZQTFRFzMzM////040VdgAAAAJ0Uk5T/wDltzBKAAAAEklEQVR42mJgYAQCBopJgAADAAbwADHy2qHzAAAAAElFTkSuQmCC);
+  background-position: left top;
+  background-repeat: no-repeat;
+  color: #aaaaaa;
+  display: block;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  height: 15px;
+  left: 0px;
+  line-height: 20px;
+  margin-left: 0px;
+  margin-right: 0px;
+  margin-top: 1px;
+  padding-top: 15px;
+  position: absolute;
+  text-align: left;
+  text-indent: 0px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  z-index: 5;
+}
+#timeline .navigation .timenav .time .time-interval-major div strong {
+  color: #ffffff;
+  font-weight: bold;
+}
+/* Typography.less
+ * Headings, body text, lists, etc
+ * ---------------------------------------------------------------------------------------- */
+#timeline {
+  font-family: "Helvetica neue", Helvetica, sans-serif;
+  font-size: 15px;
+  -webkit-font-smoothing: antialiased;
+  font-weight: normal;
+  line-height: 20px;
+  /* Fix for webkit rendering */
+  -webkit-text-size-adjust: 100%;
+
+}
+
+  #indicator {
+  background-color: #1f67c0;
+  height: 6px;
+  position: absolute;
+  top: -2px;
+  white-space: nowrap;
+  width:5px;
+  z-index: 10;
+}
+
+#timeline .navigation .timenav .time .timemodifier{
+    color: #333;
+    font-size: 12px;
+    height: 50px;
+    position: absolute;
+    right: 0;
+    padding:10px;
+    text-align: center;
+    top: 5px;
+    vertical-align: middle;
+    white-space: nowrap;
+    width: 80px;
+}
+#timeline .navigation .timenav .time .timemodifier a{
+    color: #999;
+}
+
+#timeline .navigation .timenav .time .timemodifier a:hover,
+#timeline .navigation .timenav .time .timemodifier a:active
+{
+  text-decoration:none;
+}
+/*INTERFACE*/
+#main {
+  margin:0;
+  overflow:hidden;
+  padding:0;
+}
+#missiontime{
+    color: #333333;
+    font-size: 13px;
+    height: 20px;
+    margin: 10px auto;
+    text-align: center;
+    vertical-align: middle;
+    width: 200px;
+}
+
+#missiontime.prelaunch{
+    color: #d71c1c;
+    font-weight:bold;
+}
+
+/*COMMUNIACTION*/
+    #space {
+      float:right;
+      height:90%;
+      margin:0 auto;
+      width:40%;
+
+      }
+    #earth {
+      height:90%;
+      width:40%;
+    }
+      #earth img.planetarybody,
+      #space img.planetarybody {
+      position:relative;
+      width:100%;
+      z-index: 1;
+    }
+
+      #space img.planetarybody {
+            left:50%;
+    }
+
+      #earth img.speakerimage,
+      #space img.speakerimage {
+      border-bottom-left-radius: 90px;
+      -webkit-border-bottom-left-radius: 90px;
+      -moz-border-radius-bottomleft: 90px;
+      -moz-border-radius-topleft: 90px;
+      -moz-border-radius-topright: 90px;
+      border-top-left-radius: 90px;
+      -webkit-border-top-left-radius: 90px;
+      border-top-right-radius: 90px;
+      -webkit-border-top-right-radius: 90px;
+      position:relative;
+      z-index:100;
+    }
+
+      #earth img.speakerimage {
+      border-bottom-left-radius: 0px;
+      border-bottom-right-radius: 90px
+      -webkit-border-bottom-left-radius: 0px;
+      -webkit-border-bottom-right-radius: 90px;
+      -moz-border-radius-bottomleft: 0px;
+      -moz-border-radius-bottomright: 90px;
+      margin-left:10px;
+}
+
+
+
+      #earth .content,
+      #space .content {
+      position: absolute;
+      top: 30%;
+      width: 40%;
+    }
+
+      #earth .content {
+      text-align:right;
+    }
+
+
+
+      #earth .content .speaker,
+      #space .content .speaker {
+      color:#174e91;
+      padding:10px;
+      position:relative;
+      z-index:100;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9);
+    }
+      #earth .content .message,
+      #space .content .message {
+      color:#e2e2e2;
+      padding:0 5px 0 10px;
+      z-index: 100;
+      position:relative;
+      text-shadow: 2px 2px 2px rgba(0, 0, 0, 0.9);
+    }
