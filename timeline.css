@@ -277,7 +277,7 @@
 
       #earth img.speakerimage {
       border-bottom-left-radius: 0px;
-      border-bottom-right-radius: 90px
+      border-bottom-right-radius: 90px;
       -webkit-border-bottom-left-radius: 0px;
       -webkit-border-bottom-right-radius: 90px;
       -moz-border-radius-bottomleft: 0px;
